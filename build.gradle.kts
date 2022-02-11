@@ -14,7 +14,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    val jupiterVersion = "5.8.2"
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
+    testImplementation("io.strikt:strikt-jvm:0.34.1")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
+
 }
 
 tasks.test {
