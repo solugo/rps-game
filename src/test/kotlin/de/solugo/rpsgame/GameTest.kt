@@ -1,14 +1,16 @@
 package de.solugo.rpsgame
 
 import de.solugo.rpsgame.model.Outcome
+import de.solugo.rpsgame.model.Player
 import de.solugo.rpsgame.model.Shape
 import org.junit.jupiter.api.Test
 import strikt.api.expect
-import strikt.assertions.isEqualTo
+import strikt.assertions.*
 
 class GameTest {
 
     companion object {
+        private val iterations = (0 until 100)
         private val outcomes = hashMapOf(
             (Shape.Rock to Shape.Rock) to Outcome.Draw,
             (Shape.Rock to Shape.Paper) to Outcome.Loss,
@@ -22,7 +24,6 @@ class GameTest {
         )
     }
 
-
     @Test
     fun `test that challange of all combinations leads to expected outcome`() {
         expect {
@@ -35,6 +36,32 @@ class GameTest {
                     that(actual).describedAs(description).isEqualTo(expected)
                 }
             }
+        }
+    }
+
+    @Test
+    fun `test that player with constant decision always returns the same decision`() {
+        expect {
+            val player = Player(Player.DECISION_ROCK)
+            val description = "constant decisions"
+            val actual = iterations.mapNotNull {
+                runCatching { player.decision() }.getOrNull()
+            }
+
+            that(actual.distinct()).describedAs(description).hasSize(1)
+        }
+    }
+
+    @Test
+    fun `test that player with random decision returns varying decisions`() {
+        expect {
+            val player = Player(Player.DECISION_RANDOM)
+            val description = "random decision"
+            val actual = iterations.mapNotNull {
+                runCatching { player.decision() }.getOrNull()
+            }
+
+            that(actual.distinct()).describedAs(description).hasSize(3)
         }
     }
 }
