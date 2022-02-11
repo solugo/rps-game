@@ -3,6 +3,7 @@ package de.solugo.rpsgame
 import de.solugo.rpsgame.model.Outcome
 import de.solugo.rpsgame.model.Player
 import de.solugo.rpsgame.model.Shape
+import de.solugo.rpsgame.model.Statistics
 import org.junit.jupiter.api.Test
 import strikt.api.expect
 import strikt.assertions.*
@@ -75,6 +76,23 @@ class GameTest {
             val actual = runCatching { Game.playRounds(player, opponent, rounds) }.takeIf { it.isSuccess }?.getOrNull()
 
             that(actual).describedAs(description).isNotNull().hasSize(rounds)
+        }
+    }
+
+    @Test
+    fun `test that statistics for given rounds are calculated`() {
+        expect {
+            val player = Player(Player.DECISION_RANDOM)
+            val opponent = Player(Player.DECISION_RANDOM)
+            val description = "statistics"
+            val rounds = Game.playRounds(player, opponent, 100)
+            val actual = kotlin.runCatching { Game.calculateStatistics(rounds) }.getOrNull()
+
+            that(actual).describedAs(description).isNotNull().and {
+                get(Statistics::outcomes).isNotEmpty().get("sum") { values.sum() }.isNotEqualTo(0)
+                get(Statistics::opponentDecisions).isNotEmpty().get("sum") { values.sum() }.isNotEqualTo(0)
+                get(Statistics::playerDecisions).isNotEmpty().get("sum") { values.sum() }.isNotEqualTo(0)
+            }
         }
     }
 

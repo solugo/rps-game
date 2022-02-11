@@ -1,9 +1,6 @@
 package de.solugo.rpsgame
 
-import de.solugo.rpsgame.model.Outcome
-import de.solugo.rpsgame.model.Player
-import de.solugo.rpsgame.model.Round
-import de.solugo.rpsgame.model.Shape
+import de.solugo.rpsgame.model.*
 
 object Game {
 
@@ -31,4 +28,5 @@ object Game {
         Round(playerShape, opponentShape, decideOutcome(playerShape, opponentShape))
     }
 
+    fun calculateStatistics(rounds: Collection<Round>): Statistics = TODO()
 }
