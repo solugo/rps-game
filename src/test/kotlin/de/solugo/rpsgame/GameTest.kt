@@ -1,6 +1,5 @@
 package de.solugo.rpsgame
 
-import de.solugo.rpsgame.model.Game
 import de.solugo.rpsgame.model.Outcome
 import de.solugo.rpsgame.model.Shape
 import org.junit.jupiter.api.Test

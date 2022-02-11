@@ -1,4 +1,7 @@
-package de.solugo.rpsgame.model
+package de.solugo.rpsgame
+
+import de.solugo.rpsgame.model.Outcome
+import de.solugo.rpsgame.model.Shape
 
 object Game {
 
