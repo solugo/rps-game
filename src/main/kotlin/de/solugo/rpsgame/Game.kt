@@ -1,6 +1,8 @@
 package de.solugo.rpsgame
 
 import de.solugo.rpsgame.model.Outcome
+import de.solugo.rpsgame.model.Player
+import de.solugo.rpsgame.model.Round
 import de.solugo.rpsgame.model.Shape
 
 object Game {
@@ -22,5 +24,7 @@ object Game {
             Shape.Scissors -> Outcome.Loss
         }
     }
+
+    fun play(player: Player, opponent: Player, rounds: Int): List<Round> = TODO()
 
 }

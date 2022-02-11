@@ -64,4 +64,18 @@ class GameTest {
             that(actual.distinct()).describedAs(description).hasSize(3)
         }
     }
+
+    @Test
+    fun `test that playing a given number of rounds leads to an equal number of results`() {
+        expect {
+            val rounds = 100
+            val player = Player(Player.DECISION_RANDOM)
+            val opponent = Player(Player.DECISION_RANDOM)
+            val description = "a game of $rounds rounds"
+            val actual = runCatching { Game.play(player, opponent, rounds) }.takeIf { it.isSuccess }?.getOrNull()
+
+            that(actual).describedAs(description).isNotNull().hasSize(rounds)
+        }
+    }
+
 }
