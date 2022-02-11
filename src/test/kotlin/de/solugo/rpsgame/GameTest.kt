@@ -31,7 +31,7 @@ class GameTest {
                 Shape.values().forEach { opponent ->
                     val description = "outcome of $player against $opponent"
                     val expected = runCatching { outcomes.getValue((player to opponent)) }
-                    val actual = runCatching { Game.challenge(player, opponent) }
+                    val actual = runCatching { Game.decideOutcome(player, opponent) }
 
                     that(actual).describedAs(description).isEqualTo(expected)
                 }
@@ -72,7 +72,7 @@ class GameTest {
             val player = Player(Player.DECISION_RANDOM)
             val opponent = Player(Player.DECISION_RANDOM)
             val description = "a game of $rounds rounds"
-            val actual = runCatching { Game.play(player, opponent, rounds) }.takeIf { it.isSuccess }?.getOrNull()
+            val actual = runCatching { Game.playRounds(player, opponent, rounds) }.takeIf { it.isSuccess }?.getOrNull()
 
             that(actual).describedAs(description).isNotNull().hasSize(rounds)
         }
