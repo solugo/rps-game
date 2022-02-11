@@ -28,5 +28,10 @@ object Game {
         Round(playerShape, opponentShape, decideOutcome(playerShape, opponentShape))
     }
 
-    fun calculateStatistics(rounds: Collection<Round>): Statistics = TODO()
+    fun calculateStatistics(rounds: Collection<Round>): Statistics = Statistics(
+        outcomes = rounds.groupBy(Round::outcome).mapValues { it.value.count() },
+        playerDecisions = rounds.groupBy(Round::player).mapValues { it.value.count() },
+        opponentDecisions = rounds.groupBy(Round::opponent).mapValues { it.value.count() },
+    )
+
 }
