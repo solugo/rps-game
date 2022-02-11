@@ -23,8 +23,8 @@ object Game {
     }
 
     fun playRounds(player: Player, opponent: Player, rounds: Int): List<Round> = (0 until rounds).map {
-        val playerShape = player.decision()
-        val opponentShape = opponent.decision()
+        val playerShape = player.strategy.decide()
+        val opponentShape = opponent.strategy.decide()
         Round(playerShape, opponentShape, decideOutcome(playerShape, opponentShape))
     }
 

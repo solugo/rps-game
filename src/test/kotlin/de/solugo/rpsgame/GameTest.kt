@@ -1,9 +1,6 @@
 package de.solugo.rpsgame
 
-import de.solugo.rpsgame.model.Outcome
-import de.solugo.rpsgame.model.Player
-import de.solugo.rpsgame.model.Shape
-import de.solugo.rpsgame.model.Statistics
+import de.solugo.rpsgame.model.*
 import org.junit.jupiter.api.Test
 import strikt.api.expect
 import strikt.assertions.*
@@ -43,10 +40,10 @@ class GameTest {
     @Test
     fun `test that player with constant decision always returns the same decision`() {
         expect {
-            val player = Player(Player.DECISION_ROCK)
+            val player = Player(PlayerStrategy.Constant(Shape.Rock))
             val description = "constant decisions"
             val actual = iterations.mapNotNull {
-                runCatching { player.decision() }.getOrNull()
+                runCatching { player.strategy.decide() }.getOrNull()
             }
 
             that(actual.distinct()).describedAs(description).hasSize(1)
@@ -56,10 +53,10 @@ class GameTest {
     @Test
     fun `test that player with random decision returns varying decisions`() {
         expect {
-            val player = Player(Player.DECISION_RANDOM)
+            val player = Player(PlayerStrategy.Random)
             val description = "random decision"
             val actual = iterations.mapNotNull {
-                runCatching { player.decision() }.getOrNull()
+                runCatching { player.strategy.decide() }.getOrNull()
             }
 
             that(actual.distinct()).describedAs(description).hasSize(3)
@@ -70,8 +67,8 @@ class GameTest {
     fun `test that playing a given number of rounds leads to an equal number of results`() {
         expect {
             val rounds = 100
-            val player = Player(Player.DECISION_RANDOM)
-            val opponent = Player(Player.DECISION_RANDOM)
+            val player = Player(PlayerStrategy.Random)
+            val opponent = Player(PlayerStrategy.Random)
             val description = "a game of $rounds rounds"
             val actual = runCatching { Game.playRounds(player, opponent, rounds) }.takeIf { it.isSuccess }?.getOrNull()
 
@@ -82,8 +79,8 @@ class GameTest {
     @Test
     fun `test that statistics for given rounds are calculated`() {
         expect {
-            val player = Player(Player.DECISION_RANDOM)
-            val opponent = Player(Player.DECISION_RANDOM)
+            val player = Player(PlayerStrategy.Random)
+            val opponent = Player(PlayerStrategy.Random)
             val description = "statistics"
             val rounds = Game.playRounds(player, opponent, 100)
             val actual = kotlin.runCatching { Game.calculateStatistics(rounds) }.getOrNull()
