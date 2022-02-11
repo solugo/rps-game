@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.solugo.rpsgame"
-version = "1.0.0"
+version = gitVersion.version()
 
 repositories {
     mavenCentral()
