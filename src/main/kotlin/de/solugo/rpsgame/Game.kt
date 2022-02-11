@@ -25,6 +25,10 @@ object Game {
         }
     }
 
-    fun play(player: Player, opponent: Player, rounds: Int): List<Round> = TODO()
+    fun play(player: Player, opponent: Player, rounds: Int): List<Round> = (0 until rounds).map {
+        val playerShape = player.decision()
+        val opponentShape = opponent.decision()
+        Round(playerShape, opponentShape, challenge(playerShape, opponentShape))
+    }
 
 }
